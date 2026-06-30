@@ -1,0 +1,28 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
+using RoyalVilla.CustomValidators;
+
+namespace RoyalVilla.Model.DTO
+{
+  public class VillaCreateDTO
+  {
+    [MaxLength(50)]
+    // [Required]
+    public string Name { get; set; } = string.Empty;
+    // public required string Name { get; set; }
+
+    public string Details { get; set; } = String.Empty;
+
+    public double Rate { get; set; }
+
+    // [MinimumSqftValidator(1000, ErrorMessage = "This is a test message {0}")]
+    public int Sqft { get; set; }
+
+    public int Occupancy { get; set; }
+
+    public string ImageUrl { get; set; } = String.Empty;
+  }
+}
