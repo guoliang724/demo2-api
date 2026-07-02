@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -31,6 +32,7 @@ namespace RoyalVilla.Controllers
 
 
     [HttpGet]
+    [Authorize]
     public async Task<ActionResult<IEnumerable<VillaDTO>>> GetVillas()
     {
       List<Villa>? villas = await _applicationDbContext.villas.ToListAsync<Villa>();
@@ -40,6 +42,7 @@ namespace RoyalVilla.Controllers
     }
 
     [HttpGet("{id}")]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(typeof(ApiResponse<VillaDTO>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
     [TypeFilter(typeof(Villa_ValidateGetByIdFilterAttribute))]
