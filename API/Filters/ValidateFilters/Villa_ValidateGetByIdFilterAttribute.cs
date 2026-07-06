@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using API.Model;
-using API.Model.DTO;
+using Application.Villas.DTOs;
 
 namespace API.Filters
 {
@@ -41,7 +41,7 @@ namespace API.Filters
       }
 
       // 3. 性能优化：因为只是读取和映射，加 AsNoTracking() 彻底免除 EF 内存追踪开销
-      var villa = await _db.villas
+      var villa = await _db.Villas
           .AsNoTracking()
           .FirstOrDefaultAsync(x => x.Id == id);
 

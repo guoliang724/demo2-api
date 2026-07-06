@@ -1,6 +1,6 @@
 
 
-namespace API.Model.DTO
+namespace API.Model
 {
   public class ApiResponse<TData>
   {

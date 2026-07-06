@@ -1,14 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using AutoMapper;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.EntityFrameworkCore;
-using API.Model.DTO;
 using Infrastructure.Persistence;
+using Application.Users.DTOs;
+using API.Model;
 
 namespace API.Filters.ValidateFilters
 {

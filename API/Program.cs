@@ -3,22 +3,19 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using API.Model;
-using API.Model.DTO;
 using API.Services;
 using Scalar.AspNetCore;
-using Infrastructure.Persistence;
+using Infrastructure.Extensions;
 using Domain.Entities.Villa;
 using Domain.Entities.User;
+using Infrastructure.Seeders;
+using Application.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-{
-  string? cString = builder.Configuration.GetSection("connectionStrings").Get<DbString>()?.defaults ?? string.Empty;
-  options.UseSqlServer(cString);
-});
+builder.Services.AddInfrastructureServices(builder.Configuration);
+builder.Services.AddApplication();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -63,24 +60,20 @@ builder.Services.AddOpenApi(options =>
 );
 
 
-builder.Services.AddAutoMapper(a =>
-{
-  a.CreateMap<Villa, VillaCreateDTO>().ReverseMap();
-  a.CreateMap<Villa, VillaUpdateDTO>().ReverseMap();
-  a.CreateMap<Villa, VillaDTO>();
-  a.CreateMap<User, UserDTO>().ReverseMap();
-});
+
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
 
+app.Services.CreateScope().ServiceProvider.GetRequiredService<IDataSeed>().SeedDataAsync().Wait();
+
 // solution1
-string? connectionString = app.Configuration.GetSection("connectionStrings")["defaults"];
+// string? connectionString = app.Configuration.GetSection("connectionStrings")["defaults"];
 
-DbString? c1 = app.Configuration.GetSection("connectionStrings").Get<DbString>();
+// DbString? c1 = app.Configuration.GetSection("connectionStrings").Get<DbString>();
 
-Console.WriteLine("ConnectionStrings" + c1?.defaults);
+// Console.WriteLine("ConnectionStrings" + c1?.defaults);
 
 
 if (app.Environment.IsDevelopment())

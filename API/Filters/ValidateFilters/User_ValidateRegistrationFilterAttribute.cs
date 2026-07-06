@@ -1,13 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
-using API.Model.DTO;
 using Infrastructure.Persistence;
+using API.Model;
+using Application.Users.DTOs;
 
 namespace API.Filters.ValidateFilters
 {
@@ -35,7 +33,7 @@ namespace API.Filters.ValidateFilters
         return;
       }
 
-      var isDuplicated = await _db.users.AnyAsync(x => x.Email == regDTO.Email);
+      var isDuplicated = await _db.Users.AnyAsync(x => x.Email == regDTO.Email);
 
       if (isDuplicated)
       {

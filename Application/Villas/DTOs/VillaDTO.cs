@@ -1,5 +1,5 @@
 
-namespace API.Model.DTO
+namespace Application.Villas.DTOs
 {
   public class VillaDTO
   {

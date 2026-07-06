@@ -1,6 +1,6 @@
 
 
-namespace API.Model.DTO
+namespace Application.Users.DTOs
 {
   public class UserDTO
   {

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using API.Model;
-using API.Model.DTO;
+using Application.Villas.DTOs;
 
 namespace API.Filters
 {
@@ -32,7 +32,7 @@ namespace API.Filters
 
       // 2. 性能优化 A：使用 AnyAsync 代替 FirstOrDefaultAsync
       // 3. 性能优化 B：使用 EF.Functions.Like 或直接相等，避免 ToLower() 破坏数据库索引
-      var isDuplicated = await _dbContext.villas
+      var isDuplicated = await _dbContext.Villas
           .AnyAsync(x => EF.Functions.Like(x.Name, createDTO.Name));
       // 如果你的数据库默认就是不区分大小写的（如 SQL Server / MySQL 默认排序规则），
       // 可以直接简化为：x => x.Name == createDTO.Name

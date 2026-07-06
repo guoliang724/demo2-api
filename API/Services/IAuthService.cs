@@ -1,5 +1,5 @@
 
-using API.Model.DTO;
+using Application.Users.DTOs;
 
 namespace API.Services
 {

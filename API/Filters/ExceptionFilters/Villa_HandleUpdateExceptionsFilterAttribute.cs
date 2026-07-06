@@ -3,9 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
-using API.Model.DTO;
 using Infrastructure.Persistence;
 using Domain.Entities.Villa;
+using Application.Villas.DTOs;
+using API.Model;
 
 namespace API.Filters.ExceptionFilters
 {
@@ -23,7 +24,7 @@ namespace API.Filters.ExceptionFilters
       string? id = context.RouteData.Values["id"] as string;
       if (int.TryParse(id, out var paramId))
       {
-        Villa? villa = await _db.villas.FirstOrDefaultAsync(x => x.Id == paramId);
+        Villa? villa = await _db.Villas.FirstOrDefaultAsync(x => x.Id == paramId);
         if (villa == null)
         {
           ApiResponse<VillaDTO>? response = ApiResponse<VillaDTO>.NotFound("Not found the item to update");

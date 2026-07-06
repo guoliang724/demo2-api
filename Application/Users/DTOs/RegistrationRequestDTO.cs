@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 
 
-namespace API.Model.DTO
+namespace Application.Users.DTOs
 {
   public class RegistrationRequestDTO
   {

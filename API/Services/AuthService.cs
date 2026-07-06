@@ -6,9 +6,10 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
-using API.Model.DTO;
+
 using Infrastructure.Persistence;
 using Domain.Entities.User;
+using Application.Users.DTOs;
 
 namespace API.Services
 {
@@ -27,7 +28,7 @@ namespace API.Services
     }
     public async Task<LoginResponseDTO> Login(LoginRequestDTO loginRequestDTO)
     {
-      var user = await _db.users.FirstOrDefaultAsync(u => u.Email == loginRequestDTO.Email && EF.Functions.Like(u.Password, loginRequestDTO.Password));
+      var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == loginRequestDTO.Email && EF.Functions.Like(u.Password, loginRequestDTO.Password));
       if (user == null)
       {
         return null;
@@ -52,7 +53,7 @@ namespace API.Services
         CreateDate = DateTime.Now,
       };
 
-      await _db.users.AddAsync(user);
+      await _db.Users.AddAsync(user);
       await _db.SaveChangesAsync();
 
       UserDTO userDTO = _mapper.Map<UserDTO>(user);

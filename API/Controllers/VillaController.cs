@@ -8,9 +8,9 @@ using API.CustomValidators;
 using API.Filters;
 using API.Filters.ExceptionFilters;
 using API.Model;
-using API.Model.DTO;
 using Domain.Entities.Villa;
 using Infrastructure.Persistence;
+using Application.Villas.DTOs;
 
 namespace API.Controllers
 {
@@ -32,7 +32,7 @@ namespace API.Controllers
     [Authorize]
     public async Task<ActionResult<IEnumerable<VillaDTO>>> GetVillas()
     {
-      List<Villa>? villas = await _applicationDbContext.villas.ToListAsync<Villa>();
+      List<Villa>? villas = await _applicationDbContext.Villas.ToListAsync<Villa>();
       List<VillaDTO>? vlilasDTO = _autoMapper.Map<List<VillaDTO>>(villas);
       ApiResponse<List<VillaDTO>>? villaResponse = ApiResponse<List<VillaDTO>>.Ok(vlilasDTO, "Retrieve Data Successful");
       return Ok(villaResponse);
@@ -67,7 +67,7 @@ namespace API.Controllers
       // 1. villaCreateDTO == null; 2. duplicated villa
       Villa? villa = _autoMapper.Map<Villa>(villaCreateDTO);
 
-      await _applicationDbContext.villas.AddAsync(villa);
+      await _applicationDbContext.Villas.AddAsync(villa);
 
       await _applicationDbContext.SaveChangesAsync();
 
@@ -118,7 +118,7 @@ namespace API.Controllers
         return BadRequest();
       }
 
-      var villa = await _applicationDbContext.villas.FirstOrDefaultAsync(x => x.Id == Id);
+      var villa = await _applicationDbContext.Villas.FirstOrDefaultAsync(x => x.Id == Id);
 
       if (villa == null)
       {

@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using API.Filters.ValidateFilters;
-using API.Model.DTO;
 using API.Services;
+using API.Model;
+using Application.Users.DTOs;
 
 namespace API.Controllers
 {
