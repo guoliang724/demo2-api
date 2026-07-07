@@ -1,8 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
+
 
 namespace Application.Extensions
 {
@@ -10,8 +10,12 @@ namespace Application.Extensions
   {
     public static void AddApplication(this IServiceCollection services)
     {
-      services.AddScoped<Restaurants.RestaurantService>();
-      services.AddAutoMapper(typeof(ServiceCollectionExtensions).Assembly);
+
+      var assembly = typeof(ServiceCollectionExtensions).Assembly;
+      services.AddAutoMapper(assembly);
+      services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
+
+      services.AddValidatorsFromAssembly(assembly).AddFluentValidationAutoValidation();
     }
   }
 }

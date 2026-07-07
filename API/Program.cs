@@ -10,12 +10,21 @@ using Domain.Entities.Villa;
 using Domain.Entities.User;
 using Infrastructure.Seeders;
 using Application.Extensions;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
+builder.Host.UseSerilog((context, services, configuration) =>
+configuration.ReadFrom.Configuration(context.Configuration)
+   .ReadFrom.Services(services)
+);
+
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplication();
+
+
+
 
 builder.Services.AddAuthentication(options =>
 {
