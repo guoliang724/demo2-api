@@ -26,9 +26,15 @@ namespace Infrastructure.Persistence
 
       modelBuilder.Entity<Restaurant>().OwnsOne(r => r.Address);
 
+      modelBuilder.Entity<Restaurant>().Navigation(a => a.Address).IsRequired();
+
       modelBuilder.Entity<Restaurant>().HasMany(r => r.Dishes)
           .WithOne()
           .HasForeignKey(d => d.RestaurantId);
+
+      modelBuilder.Entity<Dish>()
+         .Property(d => d.Price)
+         .HasPrecision(18, 2);
 
     }
   }

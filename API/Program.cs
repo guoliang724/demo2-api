@@ -11,9 +11,10 @@ using Domain.Entities.User;
 using Infrastructure.Seeders;
 using Application.Extensions;
 using Serilog;
+using API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddTransient<ErrorHandlingMiddleware>();
 
 builder.Host.UseSerilog((context, services, configuration) =>
 configuration.ReadFrom.Configuration(context.Configuration)
@@ -75,6 +76,8 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
 
+app.UseMiddleware<ErrorHandlingMiddleware>();
+
 app.Services.CreateScope().ServiceProvider.GetRequiredService<IDataSeed>().SeedDataAsync().Wait();
 
 // solution1
@@ -85,9 +88,12 @@ app.Services.CreateScope().ServiceProvider.GetRequiredService<IDataSeed>().SeedD
 // Console.WriteLine("ConnectionStrings" + c1?.defaults);
 
 
+
+
+
 if (app.Environment.IsDevelopment())
 {
-  app.UseDeveloperExceptionPage();
+  // app.UseDeveloperExceptionPage();
   app.MapOpenApi();
   app.MapScalarApiReference();
 }

@@ -32,7 +32,7 @@ namespace API.Controllers
     [HttpGet]
     public async Task<ActionResult<IEnumerable<RestaurantResponseDTO>>> GetRestaurants()
     {
-      var restaurants = await _mediator.Send(new GetAllRestaurantsQuery());
+      IEnumerable<RestaurantResponseDTO>? restaurants = await _mediator.Send(new GetAllRestaurantsQuery());
       return Ok(restaurants);
     }
 
@@ -40,11 +40,6 @@ namespace API.Controllers
     public async Task<ActionResult<RestaurantResponseDTO>> GetRestaurantById(int id)
     {
       RestaurantResponseDTO? restaurant = await _mediator.Send(new GetRestaurantByIdQuery { Id = id });
-
-      if (restaurant == null)
-      {
-        return NotFound();
-      }
 
       return Ok(restaurant);
     }
@@ -65,13 +60,7 @@ namespace API.Controllers
       {
         return BadRequest();
       }
-
-      var isExists = await _mediator.Send(restaurantCommand);
-
-      if (!isExists)
-      {
-        return NotFound();
-      }
+      await _mediator.Send(restaurantCommand);
 
       return NoContent();
     }
@@ -80,13 +69,7 @@ namespace API.Controllers
     public async Task<IActionResult> DeleteRestaurant(int id)
     {
       var restaurantCommand = new DeleteRestaurantCommand { Id = id };
-      var result = await _mediator.Send(restaurantCommand);
-
-      if (!result)
-      {
-        return NotFound();
-      }
-
+      await _mediator.Send(restaurantCommand);
       return NoContent();
     }
 

@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Application.Restaurants.Queries.GetAllRestaurants.GetRestaurantById
 {
-    public class GetRestaurantByIdQuery:IRequest<RestaurantResponseDTO?>
+    public class GetRestaurantByIdQuery:IRequest<RestaurantResponseDTO>
     {
         public int Id { get; set; }
     }

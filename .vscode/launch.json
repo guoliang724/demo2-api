@@ -6,8 +6,8 @@
       "type": "coreclr",
       "request": "launch",
       "program": "dotnet",
-      "args": ["watch", "run", "--project", "${workspaceFolder}"],
-      "cwd": "${workspaceFolder}",
+      "args": ["watch", "run", "--project", "${workspaceFolder}/API"],
+      "cwd": "${workspaceFolder}/API",
       "stopAtEntry": false,
       "serverReadyAction": {
         "action": "openExternally",

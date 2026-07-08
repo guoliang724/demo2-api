@@ -2,12 +2,13 @@
 using Application.DTOs;
 using Application.Restaurants.Queries.GetAllRestaurants.GetRestaurantById;
 using AutoMapper;
+using Domain.Exceptions;
 using Domain.Repositories;
 using MediatR;
 
 namespace Application.Restaurants.Queries.GetRestaurantById
 {
-  public class GetRestaurantByIdQueryHandler : IRequestHandler<GetRestaurantByIdQuery, RestaurantResponseDTO?>
+  public class GetRestaurantByIdQueryHandler : IRequestHandler<GetRestaurantByIdQuery, RestaurantResponseDTO>
   {
     private readonly IRestaurantsRepository _restaurantRepository;
     private readonly IMapper _mapper;
@@ -20,9 +21,9 @@ namespace Application.Restaurants.Queries.GetRestaurantById
     }
 
 
-    public async Task<RestaurantResponseDTO?> Handle(GetRestaurantByIdQuery request, CancellationToken cancellationToken)
+    public async Task<RestaurantResponseDTO> Handle(GetRestaurantByIdQuery request, CancellationToken cancellationToken)
     {
-      var restaurant = await _restaurantRepository.GetByIdAsync(request.Id);
+      var restaurant = await _restaurantRepository.GetByIdAsync(request.Id) ??  throw new NotFoundException($"Not Found ${request.Id}");;
       var restaurantDTO = _mapper.Map<RestaurantResponseDTO>(restaurant);
 
       return restaurantDTO;

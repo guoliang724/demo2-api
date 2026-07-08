@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Domain.Exceptions;
 using Domain.Repositories;
 using MediatR;
 
 namespace Application.Restaurants.Commands.UpdateRestaurant
 {
-  public class UpdateRestaurantCommandHandler : IRequestHandler<UpdateRestaurantCommand, bool>
+  public class UpdateRestaurantCommandHandler : IRequestHandler<UpdateRestaurantCommand>
   {
     private readonly IRestaurantsRepository _restaurantsRepository;
     private readonly IMapper _mapper;
@@ -19,18 +20,14 @@ namespace Application.Restaurants.Commands.UpdateRestaurant
       _mapper = mapper;
     }
 
-    public async Task<bool> Handle(UpdateRestaurantCommand request, CancellationToken cancellationToken)
+    public async Task Handle(UpdateRestaurantCommand request, CancellationToken cancellationToken)
     {
-      var restaurant = await _restaurantsRepository.GetByIdAsync(request.Id);
-      if (restaurant == null)
-      {
-        return false;
-      }
+      var restaurant = await _restaurantsRepository.GetByIdAsync(request.Id) ?? throw new NotFoundException($"Not Found ${request.Id}");
 
       _mapper.Map(request, restaurant);
 
       await _restaurantsRepository.SaveChangesAsync();
-      return true;
+
     }
   }
 }
