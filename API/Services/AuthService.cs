@@ -28,7 +28,7 @@ namespace API.Services
     }
     public async Task<LoginResponseDTO> Login(LoginRequestDTO loginRequestDTO)
     {
-      var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == loginRequestDTO.Email && EF.Functions.Like(u.Password, loginRequestDTO.Password));
+      var user = await _db.Own_Implement_Users.FirstOrDefaultAsync(u => u.Email == loginRequestDTO.Email && EF.Functions.Like(u.Password, loginRequestDTO.Password));
       if (user == null)
       {
         return null;
@@ -53,7 +53,7 @@ namespace API.Services
         CreateDate = DateTime.Now,
       };
 
-      await _db.Users.AddAsync(user);
+      await _db.Own_Implement_Users.AddAsync(user);
       await _db.SaveChangesAsync();
 
       UserDTO userDTO = _mapper.Map<UserDTO>(user);

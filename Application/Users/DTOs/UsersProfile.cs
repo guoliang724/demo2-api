@@ -10,6 +10,7 @@ namespace Application.Users.DTOs
     public UsersProfile()
     {
       CreateMap<LoginRequestDTO, User>().ReverseMap();
+      CreateMap<User, UserDTO>().ReverseMap();
     }
   }
 }

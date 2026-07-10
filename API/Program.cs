@@ -26,25 +26,30 @@ builder.Services.AddApplication();
 
 
 
+// For self generate token and authenticate
+// builder.Services.AddAuthentication(options =>
+// {
+//   options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+//   options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+// }).AddJwtBearer(options =>
+// {
+//   options.RequireHttpsMetadata = false;
+//   options.SaveToken = true;
+//   options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+//   {
+//     ValidateIssuer = false,
+//     ValidateAudience = false,
+//     ValidateLifetime = true,
+//     ValidateIssuerSigningKey = true,
+//     IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? string.Empty)),
+//     ClockSkew = TimeSpan.Zero
+//   };
+// });
 
-builder.Services.AddAuthentication(options =>
-{
-  options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-  options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =>
-{
-  options.RequireHttpsMetadata = false;
-  options.SaveToken = true;
-  options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-  {
-    ValidateIssuer = false,
-    ValidateAudience = false,
-    ValidateLifetime = true,
-    ValidateIssuerSigningKey = true,
-    IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? string.Empty)),
-    ClockSkew = TimeSpan.Zero
-  };
-});
+
+// For app.MapIdentityApi： as all things have been set up. No need to config 
+builder.Services.AddAuthentication();
+
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi(options =>
@@ -70,8 +75,6 @@ builder.Services.AddOpenApi(options =>
 );
 
 
-
-
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
@@ -93,13 +96,18 @@ app.Services.CreateScope().ServiceProvider.GetRequiredService<IDataSeed>().SeedD
 
 if (app.Environment.IsDevelopment())
 {
-  // app.UseDeveloperExceptionPage();
+  app.UseDeveloperExceptionPage();
   app.MapOpenApi();
   app.MapScalarApiReference();
 }
 
+
 app.UseHttpsRedirection();
 app.UseRouting();
+
+// this is automatic or you can generate and validate token by own
+// no need to AddJWTBearer
+app.MapIdentityApi<AppUser>();
 
 app.UseAuthentication();
 app.UseAuthorization();

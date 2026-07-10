@@ -39,7 +39,7 @@ namespace API.Controllers
     }
 
     [HttpGet("{id}")]
-    [Authorize(Roles = "Admin")]
+    // [Authorize(Roles = "Admin")]
     [ProducesResponseType(typeof(ApiResponse<VillaDTO>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
     [TypeFilter(typeof(Villa_ValidateGetByIdFilterAttribute))]

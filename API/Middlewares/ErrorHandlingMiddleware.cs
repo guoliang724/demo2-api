@@ -29,7 +29,7 @@ namespace API.Middlewares
         context.Response.ContentType = "application/json";
         await context.Response.WriteAsJsonAsync(response);
       }
-      catch (Exception ex)
+      catch (Exception)
       {
         // _logger.LogError(ex, ex.Message);
         var response = ApiResponse<object>.Error(message: "Something went wrong", statusCode: 500);

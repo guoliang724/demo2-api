@@ -11,6 +11,7 @@ using Application.Restaurants.Queries.GetAllRestaurants;
 using Application.Restaurants.Queries.GetAllRestaurants.GetRestaurantById;
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -28,7 +29,7 @@ namespace API.Controllers
       _mapper = mapper;
     }
 
-
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<RestaurantResponseDTO>>> GetRestaurants()
     {

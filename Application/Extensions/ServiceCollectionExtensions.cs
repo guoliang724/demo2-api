@@ -16,6 +16,8 @@ namespace Application.Extensions
       services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
 
       services.AddValidatorsFromAssembly(assembly).AddFluentValidationAutoValidation();
+
+      services.AddHttpContextAccessor();
     }
   }
 }

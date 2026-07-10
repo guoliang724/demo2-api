@@ -3,22 +3,23 @@
 using Domain.Entities.Restaurant;
 using Domain.Entities.User;
 using Domain.Entities.Villa;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 
 namespace Infrastructure.Persistence
 {
-  public class ApplicationDbContext : DbContext
+  public class ApplicationDbContext : IdentityDbContext<AppUser>
   {
-    internal object villas;
-
     public DbSet<Villa> Villas { get; set; }
-    public DbSet<User> Users { get; set; }
 
     public DbSet<Restaurant> Restaurants { get; set; }
     public DbSet<Dish> Dishes { get; set; }
+    public DbSet<User> Own_Implement_Users { get; set; }
 
-    public ApplicationDbContext(DbContextOptions options) : base(options) { }
+
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -35,6 +36,8 @@ namespace Infrastructure.Persistence
       modelBuilder.Entity<Dish>()
          .Property(d => d.Price)
          .HasPrecision(18, 2);
+
+      modelBuilder.Entity<Villa>().ToTable("villas");
 
     }
   }
