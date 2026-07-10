@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Application.Users.Commands
+namespace Application.Users.Commands.UpdateUser
 {
   public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand>
   {

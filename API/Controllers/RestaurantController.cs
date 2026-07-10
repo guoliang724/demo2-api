@@ -10,6 +10,7 @@ using Application.Restaurants.Commands.UpdateRestaurant;
 using Application.Restaurants.Queries.GetAllRestaurants;
 using Application.Restaurants.Queries.GetAllRestaurants.GetRestaurantById;
 using AutoMapper;
+using Domain.Constants;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,15 +22,13 @@ namespace API.Controllers
   public class RestaurantController : ControllerBase
   {
     private readonly IMediator _mediator;
-    private readonly IMapper _mapper;
 
-    public RestaurantController(IMediator mediator, IMapper mapper)
+    public RestaurantController(IMediator mediator)
     {
       _mediator = mediator;
-      _mapper = mapper;
     }
 
-    [Authorize]
+    [Authorize(Roles = UserRoles.Admin)]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<RestaurantResponseDTO>>> GetRestaurants()
     {

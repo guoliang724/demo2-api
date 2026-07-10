@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 
-namespace Application.Users.Commands
+namespace Application.Users.Commands.UpdateUser
 {
   public class UpdateUserCommand : IRequest
   {

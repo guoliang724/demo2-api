@@ -1,12 +1,15 @@
 
+using Domain.Entities.Roles;
 using Domain.Entities.User;
 using Domain.Repositories;
 using Infrastructure.Persistence;
 using Infrastructure.Repository;
 using Infrastructure.Seeders;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
 
 
 
@@ -28,7 +31,8 @@ namespace Infrastructure.Extensions
       services.AddScoped<IRestaurantsRepository, RestaurantRepository>();
 
       services.AddIdentityApiEndpoints<AppUser>()
-        .AddEntityFrameworkStores<ApplicationDbContext>();;
+        .AddRoles<AppRole>()
+        .AddEntityFrameworkStores<ApplicationDbContext>(); ;
     }
   }
 }

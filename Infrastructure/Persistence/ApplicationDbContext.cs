@@ -1,6 +1,7 @@
 
 
 using Domain.Entities.Restaurant;
+using Domain.Entities.Roles;
 using Domain.Entities.User;
 using Domain.Entities.Villa;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -9,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence
 {
-  public class ApplicationDbContext : IdentityDbContext<AppUser>
+  public class ApplicationDbContext : IdentityDbContext<AppUser,AppRole,string>
   {
     public DbSet<Villa> Villas { get; set; }
 
